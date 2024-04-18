@@ -1,0 +1,9 @@
+Personality_Options:
+  name: "Crowing"
+  tone: ""
+  language: ""
+  auto_responses_enabled: true
+  use_emoji: true
+
+Folders_Config:
+
