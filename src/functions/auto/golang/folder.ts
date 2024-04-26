@@ -30,7 +30,6 @@ export class FileGo {
           fs.writeFileSync(baseFilePath, packageDeclaration, {
             encoding: "utf-8",
           });
-          console.log(chalk.green(`Created base file: ${baseFilePath}`));
         });
       });
     });
@@ -38,12 +37,10 @@ export class FileGo {
     directories.forEach((dir) => {
       const dirPath = path.join(obj.dist, dir);
       fs.mkdirSync(dirPath, { recursive: true });
-      console.log(chalk.blue(`Created directory: ${dirPath}`));
     });
 
-    fs.writeFileSync(path.join(obj.dist, `cmd/${project}/main.go`), "", {
+    fs.writeFileSync(path.join(obj.dist, `main.go`), "", {
       encoding: "utf-8",
     });
-    console.log(`Created main.go in cmd/${project}`);
   }
 }

@@ -67,7 +67,6 @@ export class File extends Folder {
         try {
           this.indexFile(this.servicePath, item, fileName);
           fsE.writeFileSync(servicePath, contents.command, "utf-8");
-          console.log(chalk.green(`Service ${servicePath} created`));
         } catch (e) {
           console.log(e);
         }
@@ -77,7 +76,6 @@ export class File extends Folder {
         try {
           this.indexFile(this.entityPath, item, fileName);
           fsE.writeFileSync(entityPath, contents.command, "utf-8");
-          console.log(chalk.greenBright(`Entity ${entityPath}  created`));
         } catch (e) {
           console.log(e);
         }
@@ -96,7 +94,6 @@ export class File extends Folder {
         try {
           this.indexFile(this.interfacePath, item, fileName);
           fsE.writeFileSync(interfPath, contents.command, "utf-8");
-          console.log(chalk.greenBright(`Interface ${interfPath}  created`));
         } catch (e) {
           console.log(e);
         }
@@ -106,7 +103,6 @@ export class File extends Folder {
         try {
           this.indexFile(this.dtoPath, item, fileName);
           fsE.writeFileSync(dtoPath, contents.command, "utf-8");
-          console.log(chalk.greenBright(`Dto ${dtoPath} created`));
         } catch (e) {
           console.log(e);
         }
@@ -126,7 +122,6 @@ export class File extends Folder {
       const index = fileReal + newIndexLine;
       if (!fileReal.includes(newIndexLine)) {
         await fs.promises.appendFile(indexPath, newIndexLine);
-        console.log(chalk.blue(`Index ${indexPath} atualizado.`));
       } else {
         console.log(chalk.blue(`Index ${indexPath} já contém a nova linha.`));
       }
@@ -153,25 +148,18 @@ export class File extends Folder {
         "C:\\Users\\luizc\\ProjectWorks\\Automatization\\ProjectAuto\\middlewareExemple",
         srcPath
       );
-      console.log(chalk.blue(`Folder ${srcPath}\\config`));
 
       fsE.ensureDirSync(viewPath);
-      console.log(chalk.blue(`Folder ${viewPath} created.`));
 
       fsE.ensureDirSync(contextServicePath);
-      console.log(chalk.blue(`Folder ${contextServicePath} created.`));
 
       fsE.ensureDirSync(contextEntityPath);
-      console.log(chalk.blue(`Folder ${contextEntityPath} created.`));
 
       fsE.ensureDirSync(contextControllerPath);
-      console.log(chalk.blue(`Folder ${contextControllerPath} created.`));
 
       fsE.ensureDirSync(viewDtoPath);
-      console.log(chalk.blue(`Folder ${viewDtoPath} created.`));
 
       fsE.ensureDirSync(viewInterfacePath);
-      console.log(chalk.blue(`Folder ${viewInterfacePath} created.`));
     } catch (e) {
       console.log(e);
     }

@@ -22,7 +22,6 @@ export class FileCopier {
 
       if (fs.statSync(origemItem).isDirectory()) {
         this.copyFiles(path.join(origem, item), path.join(destino, item));
-        console.log(chalk.yellow(`Preset: ${origemItem} created.`))
       } else {
         fs.copyFileSync(origemItem, destinoItem);
       }

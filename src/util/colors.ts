@@ -19,7 +19,7 @@ export class Colors {
       return;
     }
 
-    return function (message: string) {
+    return function (message: any) {
       console.log(chalk[color](message));
     };
   }
