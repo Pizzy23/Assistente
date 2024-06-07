@@ -1,9 +1,26 @@
 Personality_Options:
-  name: "Crowing"
+  name: Crowing
   tone: ""
   language: ""
-  auto_responses_enabled: true
-  use_emoji: true
-
+  
 Folders_Config:
+  exemples_nest: ""
+  exemples_go: ""
+  main_folder: ""
+  log_folder: ""
 
+Configs_Global:
+  choices:
+    - Eso Builder
+    - Projeto Automatico
+    - Midia Organizador
+    - Cyber-Scraper
+    - Opções
+    - Pagamentos
+
+Payment_Config:
+  Total_Card: 0
+  Total_For_Pay: 0
+  slips:
+    - Name: ""
+      Value: 0

@@ -6,12 +6,24 @@ export type ConfigInt = {
     name: string;
     tone: string;
     language: string;
-    auto_responses_enabled: boolean;
-    use_emoji: boolean;
   };
   Folders_Config: {
     main_folder: string;
     log_folder: string;
+    exemples_nest: string;
+    exemples_go: string;
+  };
+  Configs_Global: {
+    choices: string[];
+  };
+  Payment_Config: {
+    Loan: number;
+    Total_Card: number;
+    Total_For_Pay: number;
+    slips: {
+      Name: string;
+      Value: number;
+    }[];
   };
 };
 
@@ -37,8 +49,6 @@ export class ConfigManager {
     this.configData = { ...this.configData, ...updates };
     const newYamlContent = yaml.dump(this.configData);
     fs.writeFileSync(this.filePath, newYamlContent, "utf8");
-    console.log("Configuração atualizada e salva.");
+    console.log("Configuration updated and saved.");
   }
 }
-
-

@@ -142,7 +142,6 @@ export class File extends Folder {
 
     try {
       fsE.ensureDirSync(contextPath);
-      console.log(chalk.blue(`Folder ${contextPath} created.`));
 
       this.copy.copyAllFiles(
         "C:\\Users\\luizc\\ProjectWorks\\Automatization\\ProjectAuto\\middlewareExemple",

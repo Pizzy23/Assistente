@@ -17,7 +17,6 @@ export class Folder {
     this.controllerPath = controllerPath;
     try {
       fsE.ensureDirSync(subfolderPath);
-      console.log(chalk.blue(`Subfolder ${subfolderPath} created.`));
       this.indexCreate(controllerPath);
     } catch (e) {
       console.log(e);
@@ -31,7 +30,6 @@ export class Folder {
     this.servicePath = servicePath;
     try {
       fsE.ensureDirSync(subfolderPath);
-      console.log(chalk.blue(`Subfolder ${subfolderPath} created.`));
       this.indexCreate(servicePath);
     } catch (e) {
       console.log(e);
@@ -45,7 +43,6 @@ export class Folder {
     this.entityPath = entityPath;
     try {
       fsE.ensureDirSync(subfolderPath);
-      console.log(chalk.blue(`Subfolder ${subfolderPath} created.`));
       this.indexCreate(entityPath);
     } catch (e) {
       console.log(e);
@@ -59,7 +56,6 @@ export class Folder {
     this.dtoPath = dtoPath;
     try {
       fsE.ensureDirSync(subfolderPath);
-      console.log(chalk.blue(`Subfolder ${subfolderPath} created.`));
       this.indexCreate(dtoPath);
     } catch (e) {
       console.log(e);
@@ -73,7 +69,6 @@ export class Folder {
     this.interfacePath = interfacePath;
     try {
       fsE.ensureDirSync(subfolderPath);
-      console.log(chalk.blue(`Subfolder ${subfolderPath} created.`));
       this.indexCreate(interfacePath);
     } catch (e) {
       console.log(e);
@@ -86,7 +81,6 @@ export class Folder {
     try {
       if (!fs.existsSync(folderPath)) {
         fs.mkdirSync(folderPath);
-        console.log(`Folder ${folderPath} created.`);
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -97,7 +91,6 @@ export class Folder {
       const indexPath = path.join(pathFile, "index.ts");
       if (!fs.existsSync(indexPath)) {
         fsE.writeFileSync(indexPath, "", "utf-8");
-        console.log(chalk.magentaBright(`Index ${indexPath} created.`));
       }
       return;
     } catch (error) {
@@ -110,7 +103,6 @@ export class Folder {
     try {
       if (!fs.existsSync(folderPath)) {
         fs.mkdirSync(folderPath);
-        console.log(`Folder ${folderPath} created.`);
       }
     } catch (error) {
       console.error("An error occurred:", error);

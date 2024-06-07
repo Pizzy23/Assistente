@@ -4,44 +4,65 @@ import { runMain } from "..";
 import { SingleBar } from "cli-progress";
 
 export async function processAuto(urls: string[]) {
-  try {
-    fs.unlinkSync("output.txt");
-  } catch (err) {
-    if (err.code === "ENOENT") {
-    } else {
+  const outputFilePath = "output.txt";
+
+  // Verifica se o arquivo existe, se não existir, cria-o
+  if (!fs.existsSync(outputFilePath)) {
+    try {
+      fs.writeFileSync(outputFilePath, "");
+    } catch (err) {
       console.error(err);
+      return; // Retorna se houver um erro ao criar o arquivo
+    }
+  }
+
+  let totalPages = 0;
+  const promises: Promise<void>[] = [];
+
+  // Primeiro, calcule o número total de páginas
+  for (const url of urls) {
+    if (url.includes("rule34")) {
+      const regex = /pid=(\d+)/;
+      const match = url.match(regex);
+      const pid = match ? parseInt(match[1]!) : 0;
+      totalPages += Math.ceil(pid / 42);
+    } else if (url.includes("simpcity")) {
+      const regex = /\/page-\d+$/;
+      const match = url.match(/\/page-(\d+)$/);
+      if (match) {
+        totalPages += parseInt(match[1]!) - 1;
+      }
     }
   }
 
   const progressBar = new SingleBar({
     format:
       chalk.blue("Progress: {bar}") +
-      " | {percentage}% || Arquivos: {value} / {total}",
-      barCompleteChar: "\u25AE",
-      barIncompleteChar: "\u25AF",
+      " | {percentage}% || Páginas: {value} / {total}",
+    barCompleteChar: "\u25AE",
+    barIncompleteChar: "\u25AF",
   });
 
-  progressBar.start(urls.length, 0);
+  progressBar.start(totalPages + 1, 0);
 
-  const promises: Promise<void>[] = [];
-
-  for (let i = 0; i < urls.length; i++) {
-    const url = urls[i];
+  // Em seguida, processe as URLs e atualize a barra de progresso
+  for (const url of urls) {
     if (url.includes("rule34")) {
       const regex = /pid=(\d+)/;
       const match = url.match(regex);
       const pid = match ? parseInt(match[1]!) : 0;
-      const iterations = Math.floor(pid / 42);
-      for (let i = 0; i <= iterations; i++) {
+      const iterations = Math.ceil(pid / 42);
+      for (let i = 0; i < iterations; i++) {
         const newPid = 42 * i;
         const pidUrl = `${url}&pid=${newPid}\n`;
         promises.push(
           new Promise<void>((resolve, reject) => {
-            fs.appendFile("output.txt", pidUrl, (err) => {
+            fs.appendFile(outputFilePath, pidUrl, (err) => {
               if (err) {
                 console.error(err);
                 reject(err);
               }
+              progressBar.increment();
               resolve();
             });
           })
@@ -50,6 +71,15 @@ export async function processAuto(urls: string[]) {
     } else if (url.includes("simpcity")) {
       const regex = /\/page-\d+$/;
       const newUrl = url.replace(regex, "");
+      new Promise<void>((resolve, reject) => {
+        fs.appendFile(outputFilePath, newUrl, (err) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          }
+          resolve();
+        });
+      });
       const match = url.match(/\/page-(\d+)$/);
       if (match) {
         const maxPage = parseInt(match[1]!);
@@ -60,11 +90,12 @@ export async function processAuto(urls: string[]) {
           )}/page-${page}\n`;
           promises.push(
             new Promise<void>((resolve, reject) => {
-              fs.appendFile("output.txt", pageUrl, (err) => {
+              fs.appendFile(outputFilePath, pageUrl, (err) => {
                 if (err) {
                   console.error(err);
                   reject(err);
                 }
+                progressBar.increment();
                 resolve();
               });
             })
@@ -72,14 +103,13 @@ export async function processAuto(urls: string[]) {
         }
       }
     }
-    progressBar.update(i + 1);
   }
 
   Promise.all(promises)
     .then(() => {
       progressBar.stop();
       setTimeout(() => {
-        fs.open("output.txt", "r", (err, fd) => {
+        fs.open(outputFilePath, "r", (err, fd) => {
           if (err) {
             console.error(err);
             return;
@@ -93,7 +123,7 @@ export async function processAuto(urls: string[]) {
       console.error(err);
       progressBar.stop();
       setTimeout(() => {
-        fs.open("output.txt", "r", (err, fd) => {
+        fs.open(outputFilePath, "r", (err, fd) => {
           if (err) {
             console.error(err);
             return;
