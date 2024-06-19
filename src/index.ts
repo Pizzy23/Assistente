@@ -7,7 +7,6 @@ import { Colors } from "./util/colors";
 import { ConfigInt, ConfigManager } from "./config/configLoader";
 import { MenuQuestions } from "./questions/menu";
 import { Cli } from "./functions/auto/cli";
-import { processAuto } from "./functions/autocyber";
 import { processFiles } from "./functions/organization";
 import { GPT } from "./functions/chatgpt";
 import { EsoBuilder, getSets } from "./functions/eso";
@@ -70,11 +69,6 @@ class Main {
       case "Projeto Automatico":
         const command = new Cli();
         await command.starter();
-        break;
-      case "Cyber-Scraper":
-        const autocyber = await inquirer.prompt(this.questions.setUrls());
-        const autocyberPieces = autocyber.des.split(/[!]/);
-        processAuto(autocyberPieces);
         break;
       case "Midia Organizador":
         const dirs = await inquirer.prompt(this.questions.setDir());
