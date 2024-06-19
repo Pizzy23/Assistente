@@ -1,4 +1,9 @@
+Type:
+  buff: null
+  debuff: null
 DB:
   items:
     - a/b/c/d
-    - a/qq/qq/qq
+    - d/s/a/d
+    - a/z/2/a
+    - a/b/c/d

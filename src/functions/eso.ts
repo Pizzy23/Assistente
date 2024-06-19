@@ -25,7 +25,7 @@ export class EsoBuilder {
       { header: "Type", key: "type", width: 20 },
       { header: "Use", key: "use", width: 20 },
     ];
-
+    this._instanceCacheInExcel();
     items.forEach((set, index) => {
       this._createCells(set, index + 2);
     });
@@ -35,6 +35,21 @@ export class EsoBuilder {
 
     this._applyHeaderStyle();
     return this.workbook;
+  }
+
+  private _instanceCacheInExcel() {
+    const data = this._getCache(this.filePath);
+    let sets = data.DB.items;
+    sets.forEach((item) => {
+      const parts = item.split(/\//);
+
+      this.worksheet.addRow({
+        set: parts[0] || "",
+        essencial: parts[1] || "",
+        type: parts[2] || "",
+        use: parts[3] || "",
+      });
+    });
   }
 
   private _createCells(set: string, rowIndex: number) {
@@ -128,11 +143,10 @@ const setEsoQuestions = [
   {
     type: "input",
     name: "des",
-    message: `
-    Coloque o novo set "Set/Tank/Heal/debuffer" separando por "/".
-    Set: Seria o nome do set que deseja adicionar.
-    Que tipo de categoria é, se for de cura, tank ou algum pra debuffer ou buffer.
-    Exemplo: Set/Tank/Heal/debuffer`,
+    message: `Coloque o novo set "Set/Tank/Heal/debuffer" separando por "/".
+Set: Seria o nome do set que deseja adicionar.
+Que tipo de categoria é, se for de cura, tank ou algum pra debuffer ou buffer.
+Exemplo: Set/Tank/Heal/debuffer`,
     default: "",
   },
 ];
@@ -160,8 +174,14 @@ export async function getSets() {
     .writeFile("esoBuilder.xlsx")
     .then(() => {
       console.log("Arquivo Excel criado com sucesso!");
+      setTimeout(() => {
+        runMain();
+      }, 4000); // 4 segundos
     })
     .catch((err: Error) => {
       console.error("Erro ao criar o arquivo Excel:", err);
+      setTimeout(() => {
+        runMain();
+      }, 4000); // 4 segundos
     });
 }

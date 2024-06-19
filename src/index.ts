@@ -193,12 +193,13 @@ const main = new Main(config);
 main.run();
 
 export async function runMain() {
-  console.clear();
   clearConsole();
+  main.firstTime = true;
   await main.run();
 }
 
 function clearConsole(): void {
+  console.clear();
   const isWindows = process.platform === "win32";
   const command = isWindows ? "cls" : "clear";
   require("child_process").execSync(command);
